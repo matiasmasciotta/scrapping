@@ -1,0 +1,15 @@
+# Carpetas de paquetes de npm
+/node_modules/
+/typings/
+
+# Carpeta de deploys 
+/dist/
+
+# Logs de npm
+/npm-*
+
+# Arhivos de log
+/*.log
+
+# Archivo package-lock.json
+/package-lock.json
