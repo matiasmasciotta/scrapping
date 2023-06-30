@@ -3,38 +3,18 @@
 const puppeteer = require('puppeteer-core');
 
 const ids = [
-  38268,
-  38263,
-  38258,
-  38257,
-  38206,
-  38204,
-  38197,
-  38188,
-  38185,
-  38181,
-  38177,
-  38171,
-  38155,
-  38152,
-  38151,
-  38144,
-  38140,
-  38114,
-  38105,
-  38091,
-  38089,
-  38088,
-  38083,
-  38076,
-  38070,
-  38069
+    38068,
+    38067,
+    38062,
 ];
-
+// url gestion cliente
 const url = 'https://grupomasmovil.inconcertcc.com/mas/contact/people/view/';
-
+// credenciales login
 const user = 'Matias';
 const pass = 'Matias12/';
+// nombre de automatizacion
+const automationName = 'LeadBruto900_C-G-TELECABLE';
+const dateControl = '29/06/2023';
 
 async function automate() {
     const browser = await puppeteer.launch({
@@ -66,8 +46,8 @@ async function automate() {
             // Tab automatización
             await page.click('#main-nav > li:nth-child(3) > a');
             // Toco popup
-            await page.waitForSelector('#LeadBruto900_C-G-TELECABLE > button > span');
-            await page.click('#LeadBruto900_C-G-TELECABLE > button > span');
+            await page.waitForSelector(`#${automationName} > button > span`);
+            await page.click(`#${automationName} > button > span`);
             // Toco item volver a ejecutar
             await page.waitForSelector('body > div.ng-tns-c24-3.dropdown > ul > li:nth-child(3) > a');
             await page.evaluate(() => {
@@ -78,6 +58,7 @@ async function automate() {
             await page.evaluate(() => {
                 document.querySelector('body > app-cmp > modal-cmp > div.modal.show > div > div > div.modal-footer.ng-tns-c1-1.ng-star-inserted > button.btn-modal-submit.btn.float-right.btn-modal-send.ng-tns-c1-1.btn-primary.ng-star-inserted').click();
             });
+            await delay(500);
             // Tab Información
             await page.waitForSelector('#main-nav > li:nth-child(1) > a');
             await page.evaluate(() => {
@@ -91,7 +72,7 @@ async function automate() {
                 document.querySelector('#containerTimeline > div > div.widget-header.d-flex > div > button:nth-child(3)').click();
             });
             // Espero para evaluar
-            await delay(700);
+            await delay(1000);
             
             // Evaluo resultado
             const result = await page.evaluate(() => {
@@ -102,7 +83,7 @@ async function automate() {
             });
 
             // Resultado ok
-            if (result.timelineTitle === 'Conversión subida en Google Ads' && result.timelineSubtitle === 'Hace unos segundos - 29/06/2023') {
+            if (result.timelineTitle === 'Conversión subida en Google Ads' && result.timelineSubtitle === `Hace unos segundos - ${dateControl}`) {
                 console.dir('ID: '+id+' --> OK', 'color: green;');
                 results.push({ id, result: 'OK' });
             } else if (result.timelineTitle === 'Error al subir conversión en Google Ads') {
@@ -111,7 +92,7 @@ async function automate() {
             }
 
             // delay final
-            await delay(1000);
+            await delay(500);
         }
 
     } catch (error) {
